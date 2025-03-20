@@ -10,8 +10,7 @@ OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
 GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 
-CFLAGS = -g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs \
-		 -Wall -Wextra -Werror
+CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
 
 os-image.bin: boot/bootsect.bin kernel.bin
 	cat $^ > os-image.bin
@@ -30,7 +29,7 @@ debug: os-image.bin kernel.elf
 	${GDB} -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
 
 %.o: %.c ${HEADERS}
-	${CC} ${CFLAGS} -ffreestanding -c $< -o $@
+	${CC} ${CFLAGS} -c $< -o $@
 
 %.o: %.asm
 	nasm $< -f elf -o $@
@@ -40,4 +39,4 @@ debug: os-image.bin kernel.elf
 
 clean:
 	rm -rf *.bin *.dis *.o os-image.bin *.elf
-	rm -rf kernel/*.o boot/*.bin drivers/*.o boot/*.o cpu/*.o
+	rm -rf kernel/*.o boot/*.bin drivers/*.o boot/*.o cpu/*.o libc/*.o
