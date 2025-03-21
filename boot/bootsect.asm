@@ -47,5 +47,16 @@ MSG_REAL_MODE db "Started in 16bit Real Mode", 0
 MSG_PROT_MODE db "Landed in 32bit Protected Mode", 0
 MSG_LOAD_KERNEL db "Loading kernel into memory", 0
 
+clear_screen:
+    pusha
+    mov ah, 0x06    ; Scroll up function
+    mov al, 0x00    ; Clear entire screen
+    mov bh, 0x07    ; Attribute (white on black)
+    mov cx, 0x0000  ; Top-left corner (0,0)
+    mov dx, 0x184f  ; Bottom-right corner (24,79)
+    int 0x10        ; Call BIOS interrupt
+    popa
+    ret
+
 times 510 - ($-$$) db 0
 dw 0xaa55

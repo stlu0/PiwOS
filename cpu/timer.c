@@ -10,6 +10,10 @@ static void timer_callback(registers_t *regs) {
     UNUSED(regs);
 }
 
+uint32_t get_uptime_ticks() {
+    return tick;
+}
+
 void init_timer(uint32_t freq) {
     register_interrupt_handler(IRQ0, timer_callback);
 

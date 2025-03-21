@@ -4,6 +4,7 @@
         "function.h": "c",
         "kernel.h": "c",
         "mem.h": "c",
-        "ranges": "c"
+        "ranges": "c",
+        "chrono": "c"
     }
 }
